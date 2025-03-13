@@ -34,6 +34,8 @@ This is a minimalistic e-commerce project built using Next.js and Tailwind CSS.
 - Allow users to apply these LLM-generated suggestions (including price changes) directly to the e-commerce site, updating the live preview dynamically.
 - Finally, these changes must actually affect the Task 1 website and be reflected when it is accessed.
 
+Note: OpenAI API Key will be provided along with your interview instructions.
+
 ## Evaluation criteria
 
 #### Requirement Fulfillment
