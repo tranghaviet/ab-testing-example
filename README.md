@@ -23,7 +23,7 @@ This is a minimalistic e-commerce project built using Next.js and Tailwind CSS.
 - Build an e-commerce website based on the wireframe provided in the `assets` folder.
 - Design the UI and layout freely—do not limit yourself to a specific theme or style.
 - Add interactivity: Users must be able to add items to a shopping cart. Each user’s cart should be unique and persist independently (e.g., using local storage, cookies, or a backend solution).
-- For inspiration, you can refer to this [website](https://venue-theme-morning.myshopify.com/). Feel free to draw ideas from its design or functionality, but do not copy it directly.
+- For inspiration, you can refer to this [website](https://themes.shopify.com/). Feel free to draw ideas from its design or functionality, but do not copy it directly.
 
 ## Task 2: Preview and Content Editor
 
