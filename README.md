@@ -20,7 +20,7 @@ This is a minimalistic e-commerce project built using Next.js and Tailwind CSS.
 
 ## Task 1: E-Commerce Website
 
-- Build an e-commerce website based on the wireframe provided in the `assets` folder (available in the repository or shared separately).
+- Build an e-commerce website based on the wireframe provided in the `assets` folder.
 - Design the UI and layout freely—do not limit yourself to a specific theme or style.
 - Add interactivity: Users must be able to add items to a shopping cart. Each user’s cart should be unique and persist independently (e.g., using local storage, cookies, or a backend solution).
 - Implement an A/B test on pricing: Split users into two groups upon visiting the site, with each group seeing different prices for the same products. You may choose the grouping method (e.g., random assignment, cookies, or URL parameters).
