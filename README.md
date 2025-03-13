@@ -20,10 +20,13 @@ This is a minimalistic e-commerce project built using Next.js and Tailwind CSS.
 
 ## Task 1: E-Commerce Website
 
+s
+
 - Build an e-commerce website based on the wireframe provided in the `assets` folder.
 - Design the UI and layout freely—do not limit yourself to a specific theme or style.
 - Add interactivity: Users must be able to add items to a shopping cart. Each user’s cart should be unique and persist independently (e.g., using local storage, cookies, or a backend solution).
 - Implement an A/B test on pricing: Split users into two groups upon visiting the site, with each group seeing different prices for the same products. You may choose the grouping method (e.g., random assignment, cookies, or URL parameters).
+- For inspiration, you can refer to this [website](https://venue-theme-morning.myshopify.com/). Feel free to draw ideas from its design or functionality, but do not copy it directly.
 
 ## Task 2: Preview and Content Editor
 
@@ -31,6 +34,7 @@ This is a minimalistic e-commerce project built using Next.js and Tailwind CSS.
 - Enable users to interact with the preview by clicking on specific UI elements (e.g., buttons, product descriptions) to mark them as areas for A/B testing.
 - Integrate an LLM (e.g., via an API like OpenAI or a mock implementation) to generate A/B test ideas and content variations for the selected areas.
 - Allow users to apply these LLM-generated suggestions directly to the e-commerce site, updating the live preview dynamically.
+- Finally, these changes must actually affect the Task 1 website and be reflected when it is accessed.
 
 ## Evaluation criteria
 
