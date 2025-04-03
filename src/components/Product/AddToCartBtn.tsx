@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { useCart } from '@/context/cart-context'
+import { useToast } from '@/hooks/use-toast'
 import { ProductListRecordType } from '@/utils/supabase/product'
 import clsx from "clsx"
 import { ReactNode, useState } from "react"
@@ -17,11 +18,14 @@ export default function AddToCartBtn({
   children,
   className,
 }: AddToCartBtnProps) {
-  // const [loading, setLoading] = useState(false)
+  const { toast } = useToast()
   const { addItem } = useCart()
+
   function onAddToCart(): void {
     addItem(product)
-    alert(`add to cart ${product.name}`)
+    toast({
+      title: `Added ${product.name}`
+    })
   }
 
   return (
