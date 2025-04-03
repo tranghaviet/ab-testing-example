@@ -8,10 +8,10 @@ const Header = () => {
           ABConvert
         </Link>
         <div className="space-x-6">
-          <Link href="/" className="hover:text-gray-600 transition-colors">
+          <Link href="/" className="hover:text-gray-600 transition-colors font-semibold">
             Home
           </Link>
-          <Link href="/cart" className="hover:text-gray-600 transition-colors">
+          <Link href="/cart" className="hover:text-gray-600 transition-colors font-semibold">
             Cart
           </Link>
         </div>
