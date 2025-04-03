@@ -3,6 +3,7 @@ import localFont from "next/font/local"
 import "./globals.css"
 import Header from "@/components/Header/Header"
 import { CartProvider } from "@/context/cart-context"
+import { Toaster } from '@/components/ui/toaster'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -40,6 +41,7 @@ export default function RootLayout({
             <main className="flex-1 container mx-auto py-8 px-4">
               {children}
             </main>
+            <Toaster />
           </div>
         </CartProvider>
       </body>
