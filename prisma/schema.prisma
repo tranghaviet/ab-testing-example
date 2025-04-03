@@ -1,0 +1,23 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [uuid_ossp(map: "uuid-ossp", schema: "extensions")]
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  imageUrl    String
+  name        String
+  category    String
+  description String
+  price       Float
+  images      String[]
+
+  @@map("products")
+}
