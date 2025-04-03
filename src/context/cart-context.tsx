@@ -21,6 +21,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined)
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([])
+  const [isLoaded, setIsLoaded] = useState(false)
 
   // Calculate total number of items
   const itemCount = items.reduce((count, item) => count + item.quantity, 0)
@@ -62,6 +63,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   // Load cart from localStorage on initial render
   useEffect(() => {
+    if (isLoaded) return;
+
     try {
       const savedCart = localStorage.getItem("cart")
       if (savedCart) {
@@ -69,17 +72,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
     } catch (error) {
       console.error("Failed to load cart from localStorage:", error)
+    } finally {
+      setIsLoaded(true)
     }
-  }, [])
+  }, [isLoaded])
 
   // Save cart to localStorage when it changes
   useEffect(() => {
+    if (!isLoaded) return;
+
     try {
       localStorage.setItem("cart", JSON.stringify(items))
     } catch (error) {
       console.error("Failed to save cart to localStorage:", error)
     }
-  }, [items])
+  }, [items, isLoaded])
 
   return (
     <CartContext.Provider
