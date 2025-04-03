@@ -1,38 +1,37 @@
-import React from "react"
+import { ProductListRecordType } from '@/utils/supabase/product'
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import type { Product } from "@/lib/data"
 import Link from "next/link"
+import AddToCartBtn from "./AddToCartBtn"
 
-const ProductCard: React.FC<Product> = ({
-  id,
-  imageUrl,
-  productName,
-  category,
-  price,
-}) => {
+
+type Props = {
+  product: ProductListRecordType
+}
+
+export default function ProductCard({ product }: Props) {
   return (
-    <div className="border rounded-lg p-4 shadow-md w-64">
-      <div className="relative h-40 mb-4">
-        <Link href={`/products/${id}`}>
-          <h3 className="text-lg font-semibold mb-1">
-            <Image
-              src={imageUrl}
-              alt={productName}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          </h3>
+    <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+      <div className="relative h-56 w-full">
+        <Link href={`/products/${product.id}`}>
+          <Image
+            src={product.imageUrl}
+            alt={product.name}
+            fill
+            className="object-cover"
+            // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
         </Link>
       </div>
-      <Link href={`/products/${id}`}>
-        <h3 className="text-lg font-semibold mb-1">{productName}</h3>
-      </Link>
-      <p className="text-sm text-gray-500 mb-1">{category}</p>
-      <p className="text-base font-medium mb-2">${price.toFixed(2)}</p>
-      <Button className="w-full">Add to Cart</Button>
+      <div className="p-4 space-y-3">
+        <Link href={`/products/${product.id}`}>
+          <h3 className="font-semibold text-lg truncate">{product.name}</h3>
+        </Link>
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-gray-600">{product.category}</span>
+          <span className="font-bold">${product.price.toFixed(2)}</span>
+        </div>
+        <AddToCartBtn id={product.id}></AddToCartBtn>
+      </div>
     </div>
   )
 }
-
-export default ProductCard
