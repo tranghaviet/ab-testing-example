@@ -1,6 +1,6 @@
 import Link, { LinkProps } from "next/link"
 
-export type ProductDetailLinkProps = Omit<LinkProps<a>, "href"> & {
+export type ProductDetailLinkProps = Omit<LinkProps, "href"> & {
   id: string
   children?: React.ReactNode
 }

@@ -24,7 +24,9 @@ export default function AddToCartBtn({
   function onAddToCart(): void {
     addItem(product)
     toast({
-      title: `Added ${product.name}`
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart.`,
+      duration: 3000,
     })
   }
 

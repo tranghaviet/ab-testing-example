@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import localFont from "next/font/local"
 import "./globals.css"
-import Header from "@/components/Header/Header"
+import Navbar from "@/components/Nav/Navbar"
 import { CartProvider } from "@/context/cart-context"
 import { Toaster } from '@/components/ui/toaster'
 
@@ -37,7 +37,7 @@ export default function RootLayout({
       >
         <CartProvider>
           <div className="min-h-screen flex flex-col">
-            <Header />
+            <Navbar />
             <main className="flex-1 container mx-auto py-8 px-4">
               {children}
             </main>
