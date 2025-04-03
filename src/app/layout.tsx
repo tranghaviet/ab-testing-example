@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import localFont from "next/font/local"
 import "./globals.css"
 import Header from "@/components/Header/Header"
+import { CartProvider } from "@/context/cart-context"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,10 +34,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
-        <div className="min-h-screen flex flex-col">
-          <Header/>
-          <main className="flex-1 container mx-auto py-8 px-4">{children}</main>
-        </div>
+        <CartProvider>
+          <div className="min-h-screen flex flex-col">
+            <Header />
+            <main className="flex-1 container mx-auto py-8 px-4">
+              {children}
+            </main>
+          </div>
+        </CartProvider>
       </body>
     </html>
   )

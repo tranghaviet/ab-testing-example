@@ -1,5 +1,5 @@
-import AddToCartBtn from '@/components/Product/AddToCartBtn'
-import { prisma } from '@/server/prisma'
+import AddToCartBtn from "@/components/Product/AddToCartBtn"
+import { prisma } from "@/server/prisma"
 import Image from "next/image"
 
 const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
@@ -19,21 +19,19 @@ const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
     <div className="p-4">
       <div className="flex flex-col md:flex-row">
         <div className="md:w-1/3 relative h-96 mb-4 md:mb-0">
-          <Image
-            src={product.imageUrl}
-            alt={product.name}
-            layout="fill"
-            objectFit="cover"
-            className="rounded-md max-w-[432px]"
-          />
+            <Image
+              src={product.imageUrl}
+              alt={product.name}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-md max-w-[432px]"
+            />
         </div>
         <div className="md:w-2/3 md:pl-8">
           <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-          <p className="text-xl font-semibold mb-4">
-            ${product.price}
-          </p>
+          <p className="text-xl font-semibold mb-4">${product.price}</p>
           <p className="text-gray-600 mb-4">{product.description}</p>
-          <AddToCartBtn id={product.id} className='md:w-auto'></AddToCartBtn>
+          <AddToCartBtn product={product} className="md:w-auto"></AddToCartBtn>
         </div>
       </div>
       <div className="mt-4">
@@ -42,7 +40,7 @@ const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
             <div key={index} className="relative h-20 w-20">
               <Image
                 src={img}
-                alt={`Related ${index}`}
+                alt={product.name}
                 layout="fill"
                 objectFit="cover"
                 className="rounded-md"
