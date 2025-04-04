@@ -15,7 +15,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="max-w-4xl">
+    <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-2">
         {itemCount} {itemCount === 1 ? "item" : "items"} in the cart
       </h1>

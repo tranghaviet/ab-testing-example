@@ -1,8 +1,8 @@
 import Link, { LinkProps } from "next/link"
+import { AnchorHTMLAttributes } from 'react'
 
-export type ProductDetailLinkProps = Omit<LinkProps, "href"> & {
+export type ProductDetailLinkProps = Omit<LinkProps, "href"> & AnchorHTMLAttributes<HTMLAnchorElement> & {
   id: string
-  children?: React.ReactNode
 }
 
 export default function ProductDetailLink({
