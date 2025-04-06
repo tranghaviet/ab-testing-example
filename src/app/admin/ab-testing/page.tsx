@@ -1,23 +1,34 @@
-"use client";
+"use client"
 
-import { AssistantRuntimeProvider } from "@assistant-ui/react";
-import { useChatRuntime } from "@assistant-ui/react-ai-sdk";
-import { Thread } from "@/components/assistant-ui/thread";
-import { ThreadList } from "@/components/assistant-ui/thread-list";
+import { Thread } from "@/components/assistant-ui/thread"
+import { ThreadList } from "@/components/assistant-ui/thread-list"
+import {
+  useAssistantInstructions
+} from "@assistant-ui/react"
 
 const ABTesting = () => {
-  const runtime = useChatRuntime({
-    api: "/api/chat",
-  });
+  useAssistantInstructions(
+    "You are a coding assistant that talks like a pirate"
+  )
 
   return (
-    <AssistantRuntimeProvider runtime={runtime}>
-      <div className="grid h-dvh grid-cols-[200px_1fr] gap-x-2 px-4 py-4">
-        <ThreadList />
-        <Thread />
+    <div className="grid h-dvh grid-cols-[200px_1fr] gap-x-4 p-4">
+      {/* Main grid: Sidebar | Content Area */}
+      {/* Left Sidebar */}
+      <ThreadList />
+      {/* Right Content Area: Preview + Chat */}
+      <div className="flex flex-col gap-y-4 overflow-hidden">
+        {/* Top: Live Preview */}
+        <div className="flex-1 rounded-md border border-border overflow-hidden">
+          <iframe src="/" className="h-full w-full" title="Live Preview" />
+        </div>
+        {/* Bottom: Chat Thread */}
+        <div className="flex-1 overflow-auto rounded-md border border-border p-4">
+          <Thread />
+        </div>
       </div>
-    </AssistantRuntimeProvider>
-  );
-};
+    </div>
+  )
+}
 
 export default ABTesting
