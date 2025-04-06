@@ -20,7 +20,21 @@ model Product {
   images      String[]
   // cartItems   CartItem[]
 
+  // testVariant TestVariant?
+
   @@map("products")
+}
+
+model TestVariant {
+  id        String   @id @default(uuid())
+  recordId  String   @unique
+  variant   String
+  field     String
+  value     Json
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+
+  @@index([recordId])
 }
 
 // model Cart {
