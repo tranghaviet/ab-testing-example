@@ -17,20 +17,18 @@ export default function ProductCard({ product }: ProductCardProps) {
       data-test-type={DATA_TEST_TYPE}
       data-test-id={product.id}
     >
-      <div className="relative h-56 w-full">
-        <ProductDetailLink id={product.id}>
-          <Image
-            src={product.imageUrl}
-            alt={product.name}
-            fill
-            className="object-cover"
-            loading="lazy"
-            placeholder="blur"
-            blurDataURL={BLUR_DATA_URL}
-            // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-        </ProductDetailLink>
-      </div>
+      <ProductDetailLink id={product.id} className="relative h-56 w-full block">
+        <Image
+          src={product.imageUrl}
+          alt={product.name}
+          fill
+          className="object-cover"
+          loading="lazy"
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
+      </ProductDetailLink>
       <div className="p-4 space-y-3">
         <h3 className="font-semibold text-lg truncate">
           <ProductDetailLink

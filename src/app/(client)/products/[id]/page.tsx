@@ -1,4 +1,5 @@
 import AddToCartBtn from "@/components/Product/AddToCartBtn"
+import { BLUR_DATA_URL } from "@/constants/image"
 import { prisma } from "@/server/prisma"
 import Image from "next/image"
 
@@ -23,9 +24,12 @@ const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
             <Image
               src={product.imageUrl}
               alt={product.name}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-md max-w-[432px]"
+              fill
+              className="object-cover rounded-md max-w-[432px]"
+              loading="lazy"
+              placeholder="blur"
+              blurDataURL={BLUR_DATA_URL}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
           <div className="mt-4 mb-6">
@@ -35,9 +39,13 @@ const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
                   <Image
                     src={img}
                     alt={product.name}
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-md"
+                    className="object-cover rounded-md"
+                    loading="lazy"
+                    placeholder="blur"
+                    blurDataURL={BLUR_DATA_URL}
+                    width={80}
+                    height={80}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
               ))}
