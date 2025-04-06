@@ -1,6 +1,7 @@
 import AddToCartBtn from "@/components/Product/AddToCartBtn"
 import { BLUR_DATA_URL } from "@/constants/image"
 import { prisma } from "@/server/prisma"
+import { generateDataTestId, PRODUCT_DATA_TEST_PREFIX } from "@/utils/ab-test"
 import Image from "next/image"
 
 const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
@@ -54,7 +55,16 @@ const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
         </div>
         <div className="md:w-2/3 md:pl-8">
           <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-          <p className="text-xl font-semibold mb-4">${product.price}</p>
+          <p
+            className="text-xl font-semibold mb-4"
+            data-test-id={generateDataTestId(
+              PRODUCT_DATA_TEST_PREFIX,
+              product.id,
+              "price"
+            )}
+          >
+            ${product.price}
+          </p>
           <p className="text-gray-600 mb-4">{product.description}</p>
           <AddToCartBtn product={product} className="sm:w-auto"></AddToCartBtn>
         </div>

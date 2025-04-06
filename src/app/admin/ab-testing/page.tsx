@@ -1,13 +1,14 @@
 "use client"
 
 import { Thread } from "@/components/assistant-ui/thread"
+import { Button } from "@/components/ui/button"
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
 import { useAssistantInstructions } from "@assistant-ui/react"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 interface SelectedElement {
   id: string
@@ -22,15 +23,34 @@ const ABTesting = () => {
     "You are a AB Testing Expert. You will be given a list of elements in a web page. Your task is to select one element and provide suggestions for improving its performance. The suggestions should be based on the content of the selected element and the context of the web page. You can also provide alternative content for the selected element."
   )
 
-  useEffect(() => {
-    const messageHandler = (event: MessageEvent) => {
-      if (event.data && event.data.type === "abTestSelection") {
-        setSelectedElement(event.data.payload)
-      }
+  const origin = "http://localhost:3000/admin/ab-testing"
+  const childOrigin = "http://localhost:3000/"
+  const ref = useRef<HTMLIFrameElement | undefined>()
+
+  function onRecievedMessage(event: MessageEvent) {
+    if (event.origin !== childOrigin) {
+      return
     }
-    window.addEventListener("message", messageHandler)
-    return () => window.removeEventListener("message", messageHandler)
-  }, [])
+
+    // do something with the received messages
+    console.log("receive message", event.data)
+  }
+
+  function sendMessage() {
+    if (!ref.current) {
+      return
+    }
+
+    ref.current.contentWindow?.postMessage("Hello iframe!", origin)
+  }
+
+  useEffect(function () {
+    window.addEventListener("message", onRecievedMessage)
+
+    return function () {
+      window.removeEventListener("message", onRecievedMessage)
+    }
+  })
 
   return (
     <div className="h-dvh gap-x-4 p-4">
@@ -40,6 +60,7 @@ const ABTesting = () => {
           <div className="flex flex-col gap-y-4 h-full">
             <div className="rounded-md border border-border p-4">
               <h2 className="text-lg font-semibold">AB Test Control Panel</h2>
+              <Button onClick={sendMessage}>Apply changes</Button>
               {selectedElement ? (
                 <div>
                   <p>
@@ -65,7 +86,12 @@ const ABTesting = () => {
         <ResizablePanel defaultSize={75}>
           {/* Right: Live Preview */}
           <div className="rounded-md border border-border overflow-hidden h-full">
-            <iframe src="/" className="w-full h-full" title="Live Preview" />
+            <iframe
+              src={childOrigin}
+              className="w-full h-full"
+              title="Live Preview"
+              onClick={(e) => console.log("click", e)}
+            />
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
