@@ -4,13 +4,19 @@ import AddToCartBtn from "./AddToCartBtn"
 import ProductDetailLink from "./ProductDetailLink"
 import { BLUR_DATA_URL } from "@/constants/image"
 
-type Props = {
+export type ProductCardProps = {
   product: ProductListRecordType
 }
 
-export default function ProductCard({ product }: Props) {
+export const DATA_TEST_TYPE = "products"
+
+export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+    <div
+      className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+      data-test-type={DATA_TEST_TYPE}
+      data-test-id={product.id}
+    >
       <div className="relative h-56 w-full">
         <ProductDetailLink id={product.id}>
           <Image
@@ -27,13 +33,30 @@ export default function ProductCard({ product }: Props) {
       </div>
       <div className="p-4 space-y-3">
         <h3 className="font-semibold text-lg truncate">
-          <ProductDetailLink id={product.id} title={product.name}>
+          <ProductDetailLink
+            id={product.id}
+            title={product.name}
+            data-test-type={`${DATA_TEST_TYPE}.name`}
+            data-test-id={product.id}
+          >
             {product.name}
           </ProductDetailLink>
         </h3>
         <div className="flex justify-between items-center">
-          <span className="text-sm text-gray-600">{product.category}</span>
-          <span className="font-bold">${product.price.toFixed(2)}</span>
+          <span
+            className="text-sm text-gray-600"
+            data-test-type={`${DATA_TEST_TYPE}.category`}
+            data-test-id={product.id}
+          >
+            {product.category}
+          </span>
+          <span
+            className="font-bold"
+            data-test-type={`${DATA_TEST_TYPE}.price`}
+            data-test-id={product.id}
+          >
+            ${product.price.toFixed(2)}
+          </span>
         </div>
         <AddToCartBtn product={product}></AddToCartBtn>
       </div>
