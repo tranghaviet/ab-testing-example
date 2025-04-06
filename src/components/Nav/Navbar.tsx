@@ -12,6 +12,7 @@ const Navbar = () => {
           {/* <NavBarItem href="/">Home</NavBarItem> */}
           <NavBarItem href="/cart">Cart</NavBarItem>
           <NavBarItem href="/checkout">Checkout</NavBarItem>
+          <NavBarItem href="/admin/ab-testing">AB Testing</NavBarItem>
         </div>
       </div>
     </nav>
