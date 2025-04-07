@@ -28,8 +28,9 @@ model Product {
 model TestVariant {
   id        String   @id @default(uuid())
   recordId  String   @unique
-  variant   String
+  model     String
   field     String
+  variant   String?
   value     Json
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @updatedAt @db.Timestamptz(3)

@@ -28,8 +28,9 @@ export async function GET(request: Request) {
 
 const postSchema = z.object({
   recordId: z.string(),
-  variant: z.string().min(1, "Variant is required"),
+  model: z.string().min(1, "Variant is required"),
   field: z.string().min(1, "Field is required"),
+  variant: z.string(),
   value: z
     .object({
       value: z.any(),
