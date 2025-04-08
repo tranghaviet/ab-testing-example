@@ -1,20 +1,17 @@
-import { BLUR_DATA_URL } from "@/constants/image";
-import { generateDataTestId, PRODUCT_DATA_TEST_PREFIX } from '@/utils/ab-test';
-import { ProductListRecordType } from "@/utils/supabase/product";
-import Image from "next/image";
-import AddToCartBtn from "./AddToCartBtn";
-import ProductDetailLink from "./ProductDetailLink";
+import { BLUR_DATA_URL } from "@/constants/image"
+import { priceToText } from '@/utils/number'
+import { ProductListRecordType } from "@/utils/supabase/product"
+import Image from "next/image"
+import AddToCartBtn from "./AddToCartBtn"
+import ProductDetailLink from "./ProductDetailLink"
 
 export type ProductCardProps = {
-  product: ProductListRecordType;
-};
+  product: ProductListRecordType
+}
 
 export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <div
-      className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-      data-test-id={generateDataTestId(PRODUCT_DATA_TEST_PREFIX, product.id, 'id')}
-    >
+    <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       <ProductDetailLink id={product.id} className="relative h-56 w-full block">
         <Image
           src={product.imageUrl}
@@ -29,30 +26,21 @@ export default function ProductCard({ product }: ProductCardProps) {
       </ProductDetailLink>
       <div className="p-4 space-y-3">
         <h3 className="font-semibold text-lg truncate">
-          <ProductDetailLink
-            id={product.id}
-            title={product.name}
-            data-test-id={generateDataTestId(PRODUCT_DATA_TEST_PREFIX, product.id, 'name')}
-          >
+          <ProductDetailLink id={product.id} title={product.name}>
             {product.name}
           </ProductDetailLink>
         </h3>
         <div className="flex justify-between items-center">
-          <span
-            className="text-sm text-gray-600"
-            data-test-id={generateDataTestId(PRODUCT_DATA_TEST_PREFIX, product.id, 'category')}
-          >
-            {product.category}
-          </span>
-          <span
+          <span className="text-sm text-gray-600">{product.category}</span>
+          {/* <ProductPrice
+            id={product.id}
+            price={product.price}
             className="font-bold"
-            data-test-id={generateDataTestId(PRODUCT_DATA_TEST_PREFIX, product.id, 'price')}
-          >
-            ${product.price.toFixed(2)}
-          </span>
+          /> */}
+          <span className="font-bold">{priceToText(product.price)}</span>
         </div>
         <AddToCartBtn product={product}></AddToCartBtn>
       </div>
     </div>
-  );
+  )
 }

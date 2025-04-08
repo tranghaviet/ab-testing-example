@@ -1,5 +1,6 @@
 import Link from "next/link"
 import NavBarItem from "./NavBarItem"
+import NavbarExperiment from "./NavbarExperiment"
 
 const Navbar = () => {
   return (
@@ -12,7 +13,8 @@ const Navbar = () => {
           {/* <NavBarItem href="/">Home</NavBarItem> */}
           <NavBarItem href="/cart">Cart</NavBarItem>
           <NavBarItem href="/checkout">Checkout</NavBarItem>
-          <NavBarItem href="/admin/ab-testing">AB Testing</NavBarItem>
+          {/* <NavBarItem href="/admin/ab-testing">AB Testing</NavBarItem> */}
+          <NavbarExperiment />
         </div>
       </div>
     </nav>

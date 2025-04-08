@@ -18,40 +18,20 @@ model Product {
   description String
   price       Float
   images      String[]
-  // cartItems   CartItem[]
-
-  // testVariant TestVariant?
 
   @@map("products")
 }
 
 model TestVariant {
   id        String   @id @default(uuid())
-  recordId  String   @unique
-  model     String
-  field     String
+  recordId  String
   variant   String?
+  field     String
   value     Json
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @updatedAt @db.Timestamptz(3)
+  model     String
 
+  @@unique([recordId, model, field])
   @@index([recordId])
 }
-
-// model Cart {
-//   id        String     @id @default(uuid())
-//   userId    String   @unique
-//   cartItems CartItem[]
-//   @@map("carts")
-// }
-
-// model CartItem {
-//   id        String   @id @default(uuid())
-//   cart      Cart     @relation(fields: [cartId], references: [id])
-//   cartId    String
-//   product   Product  @relation(fields: [productId], references: [id])
-//   productId String
-//   quantity  Int      @default(1)
-
-//   @@map("cart_items")
-// }
