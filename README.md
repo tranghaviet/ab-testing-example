@@ -1,4 +1,9 @@
-## Initialization
+## Development guide
+
+- Clone this project
+- Copy `.env.example` to `.env` then update it
+- Install deps: `yarn`
+- Run dev mode: `yarn dev`
 
 ### Database
 
