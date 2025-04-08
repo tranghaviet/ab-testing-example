@@ -21,7 +21,7 @@ import {
 import { useFormState } from "react-dom"
 import { saveABTestVariant } from "./actions"
 
-const childOrigin = getHostname()
+const childOrigin = process.env.SITE_URL || "http://localhost:3000"
 
 const ABTesting = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null)
