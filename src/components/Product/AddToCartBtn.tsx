@@ -5,7 +5,7 @@ import { useCart } from '@/context/cart-context'
 import { useToast } from '@/hooks/use-toast'
 import { ProductListRecordType } from '@/utils/supabase/product'
 import clsx from "clsx"
-import { ReactNode, useState } from "react"
+import { ReactNode } from "react"
 
 type AddToCartBtnProps = {
   product: ProductListRecordType

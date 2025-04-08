@@ -21,7 +21,7 @@ const rawFormSchema = z.object({
 
 // Define the Server Action function
 // Update signature for useFormState: accepts previous state and form data
-export async function saveABTestVariant(prevState: any, formData: FormData) {
+export async function saveABTestVariant(_prevState: any, formData: FormData) {
   try {
     const rawData = {
       recordId: formData.get("recordId") as string, // Cast or ensure string

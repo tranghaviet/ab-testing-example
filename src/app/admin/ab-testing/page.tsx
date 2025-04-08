@@ -1,14 +1,12 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
-import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { prompt } from "@/lib/prompt"
 import { ABMessage } from "@/utils/ab-test"
@@ -20,16 +18,16 @@ import {
   useRef,
   useState
 } from "react"
-import { useFormState } from "react-dom";
-import { saveABTestVariant } from "./actions";
+import { useFormState } from "react-dom"
+import { saveABTestVariant } from "./actions"
 
 const childOrigin = getHostname()
 
 const ABTesting = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const abTestValueRef = useRef<HTMLTextAreaElement>(null)
-  const [iframeSrc, setIframeSrc] = useState(childOrigin)
-  const iframeSrcInputRef = useRef<HTMLInputElement>(null)
+  // const [iframeSrc, setIframeSrc] = useState(childOrigin)
+  // const iframeSrcInputRef = useRef<HTMLInputElement>(null)
 
   const [abMessage, setABmessage] = useState<ABMessage | null>(null)
 
@@ -163,7 +161,7 @@ const ABTesting = () => {
                     <div className="grid w-full items-center gap-1.5 col-span-2">
                       {" "}
                       {/* Removed max-w-sm */}
-                      <Label htmlFor="value">Value (JSON)</Label>
+                      <Label htmlFor="value">Value</Label>
                       {/* Use a textarea for potentially larger JSON values */}
                       <Textarea
                         ref={abTestValueRef}
@@ -239,7 +237,7 @@ const ABTesting = () => {
         <ResizablePanel defaultSize={70}>
           {/* Right: Live Preview */}
           <div className="rounded-md border border-border overflow-hidden h-full">
-            <div className="flex gap-2 items-center p-2">
+            {/* <div className="flex gap-2 items-center p-2">
               <Label>URL:</Label>
               <Input
                 ref={iframeSrcInputRef}
@@ -255,10 +253,11 @@ const ABTesting = () => {
                 Go
               </Button>
             </div>
-            <Separator />
+            <Separator /> */}
             <iframe
               ref={iframeRef}
-              src={iframeSrc}
+              // src={iframeSrc}
+              src={childOrigin}
               className="w-full h-full"
               title="Live Preview"
             />

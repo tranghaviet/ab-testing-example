@@ -16,12 +16,12 @@ export default function ProductPrice({
   id: string
   className?: string
 }) {
-  function handleClick(e: React.MouseEvent) {
+  function handleClick() {
     dispatchMessage({
       type: CONFIG_TYPE,
       model: MODEL,
       field: FIELD,
-      id: id,
+      id,
       value: price,
     })
   }

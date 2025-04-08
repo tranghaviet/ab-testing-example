@@ -1,5 +1,5 @@
 import { openai } from "@ai-sdk/openai"
-import { jsonSchema, streamText } from "ai"
+import { streamText } from "ai"
 // import { google } from "@ai-sdk/google"
 export const runtime = "edge"
 export const maxDuration = 30
