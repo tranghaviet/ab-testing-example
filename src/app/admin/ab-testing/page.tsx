@@ -10,7 +10,6 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { prompt } from "@/lib/prompt"
 import { ABMessage } from "@/utils/ab-test"
-import { getHostname } from "@/utils/browser"
 import { useCopilotAction, useCopilotReadable } from "@copilotkit/react-core"
 import { CopilotChat, CopilotPopup } from "@copilotkit/react-ui"
 import {
