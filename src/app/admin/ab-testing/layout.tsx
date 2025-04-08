@@ -1,20 +1,19 @@
-'use client'
+"use client"
 
-import { AssistantRuntimeProvider } from "@assistant-ui/react"
-import { useChatRuntime } from "@assistant-ui/react-ai-sdk"
+import { CopilotKit } from "@copilotkit/react-core"
+import "@copilotkit/react-ui/styles.css"
 
 export default function ABTestingLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const runtime = useChatRuntime({
-    api: "/api/chat",
-  })
-
   return (
-    <AssistantRuntimeProvider runtime={runtime}>
+    <CopilotKit
+      publicApiKey={process.env.NEXT_PUBLIC_COPILOT_PUBLIC_API_KEY}
+      showDevConsole={false}
+    >
       {children}
-    </AssistantRuntimeProvider>
+    </CopilotKit>
   )
 }

@@ -10,6 +10,7 @@ const envSchema = z.object({
   DIRECT_URL: z.string().url(),
   NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
+  NEXT_PUBLIC_COPILOT_PUBLIC_API_KEY: z.string(),
 });
 
 const _env = envSchema.safeParse(process.env);
