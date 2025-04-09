@@ -11,16 +11,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { useCart } from '@/context/cart-context'
 import { EXPERIMENT_COOKIE_NAME } from '@/utils/ab-test'
 import Cookies from "js-cookie" // Import js-cookie
 
 const oldValue = Cookies.get(EXPERIMENT_COOKIE_NAME) === "true"
 
 export default function NavbarExperiment() {
+  const { clearCart } = useCart()
+
   function handleClick(isEnable: boolean) {
     // Save to cookie "experiment"
     if (isEnable !== oldValue) {
       Cookies.set(EXPERIMENT_COOKIE_NAME, isEnable ? "true" : "false")
+      clearCart() // Clear the cart if the experiment mode is changed
       window.location.reload() // Reload the page to apply changes
     }
   }

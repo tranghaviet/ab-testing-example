@@ -12,6 +12,7 @@ Additional technologies utilized in this project:
 - **Lefthook & Husky** To run hook linting before devs push code to the main branch (failed fast)
 - **Performance Optimizations:** Utilizing image optimization, bundling.
 - **Zod** to validate `.env` variables and forms
+- **Local Storage** for cart item manipulation (demo purpose)
 
 ## Development guide
 
