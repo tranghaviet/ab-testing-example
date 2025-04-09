@@ -1,0 +1,9 @@
+# https://lefthook.dev/configuration/index.html
+pre-push:
+  commands:
+    lint:
+      glob: '*.{js,jsx,ts,tsx,vue}'
+      run: |
+        if [[ "$TARGET_BRANCH" == "main" ]]; then
+          yarn lint
+        fi
