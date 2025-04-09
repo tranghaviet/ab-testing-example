@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/resizable"
 import { Textarea } from "@/components/ui/textarea"
 import { prompt } from "@/lib/prompt"
-import { ABMessage } from "@/utils/ab-test"
+import { ABMessage, POST_MESSAGE_AB_TEST_TYPE } from "@/utils/ab-test"
 import { useCopilotAction, useCopilotReadable } from "@copilotkit/react-core"
 import { CopilotChat, CopilotPopup } from "@copilotkit/react-ui"
 import {
@@ -25,8 +25,6 @@ const childOrigin = process.env.SITE_URL || "http://localhost:3000"
 const ABTesting = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const abTestValueRef = useRef<HTMLTextAreaElement>(null)
-  // const [iframeSrc, setIframeSrc] = useState(childOrigin)
-  // const iframeSrcInputRef = useRef<HTMLInputElement>(null)
 
   const [abMessage, setABmessage] = useState<ABMessage | null>(null)
 
@@ -36,16 +34,15 @@ const ABTesting = () => {
     }
 
     // do something with the received messages
-    if (event.data?.type === "ab-test-config") {
+    if (event.data?.type === POST_MESSAGE_AB_TEST_TYPE) {
       // console.log("receive ab-test-config", event.data)
       setABmessage(event.data)
-      // setABTestValue(JSON.stringify({ value: event.data.value }, null, 2))
     }
   }
 
   useEffect(function () {
     window.addEventListener("message", onRecievedMessage)
-    console.log("attached message listener")
+    // console.log("attached message listener")
 
     return function () {
       window.removeEventListener("message", onRecievedMessage)
@@ -97,16 +94,9 @@ const ABTesting = () => {
       },
     ],
     handler: async (action) => {
-      console.log('action', action);
-
       setABmessage({ ...abMessage, value: action.value } as ABMessage)
     },
   })
-
-  // watch abMessage
-  useEffect(() => {
-    console.log("abMessage changed", abMessage)
-  }, [abMessage])
 
   return (
     <div className="h-dvh gap-x-4 p-4">

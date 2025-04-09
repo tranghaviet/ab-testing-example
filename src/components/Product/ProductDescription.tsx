@@ -1,6 +1,6 @@
 "use client"
 
-import { CONFIG_TYPE, dispatchMessage } from "@/utils/ab-test"
+import { POST_MESSAGE_AB_TEST_TYPE, dispatchMessage } from "@/utils/ab-test"
 import clsx from "clsx"
 
 const MODEL = "products"
@@ -17,7 +17,7 @@ export default function Productdescription({
 }) {
   function handleClick() {
     dispatchMessage({
-      type: CONFIG_TYPE,
+      type: POST_MESSAGE_AB_TEST_TYPE,
       model: MODEL,
       field: FIELD,
       id,

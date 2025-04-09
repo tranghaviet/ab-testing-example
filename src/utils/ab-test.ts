@@ -1,6 +1,6 @@
 export const EXPERIMENT_COOKIE_NAME = "experiment"
-export const CONFIG_TYPE = "ab-test-config"
-export const TARGET_ORIGIN = "*"
+export const POST_MESSAGE_AB_TEST_TYPE = "ab-test-config"
+export const POST_MESSAGE_TARGET_ORIGIN = process.env.SITE_URL || "/"
 
 export function generateDataTestId(
   prefix: string,
@@ -21,7 +21,7 @@ export type ABMessage = {
 // https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
 export function dispatchMessage(
   message: ABMessage,
-  targetOrigin = TARGET_ORIGIN
+  targetOrigin = POST_MESSAGE_TARGET_ORIGIN
 ) {
   window.parent.postMessage(message, targetOrigin)
 }

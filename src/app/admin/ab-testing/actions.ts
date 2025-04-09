@@ -101,7 +101,7 @@ export async function saveABTestVariant(_prevState: any, formData: FormData) {
     // Optional: Revalidate the path if the data change should reflect immediately elsewhere
     // revalidatePath('/some/path/to/revalidate');
 
-    console.log("Upsert successful:", record)
+    // console.log("Upsert successful:", record)
     return { success: true, data: record }
   } catch (error: any) {
     console.error("Server Action Error:", error)

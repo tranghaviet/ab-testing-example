@@ -1,6 +1,6 @@
 "use client"
 
-import { CONFIG_TYPE, dispatchMessage } from "@/utils/ab-test"
+import { POST_MESSAGE_AB_TEST_TYPE, dispatchMessage } from "@/utils/ab-test"
 import { priceToText } from '@/utils/number'
 import clsx from "clsx"
 
@@ -18,7 +18,7 @@ export default function ProductPrice({
 }) {
   function handleClick() {
     dispatchMessage({
-      type: CONFIG_TYPE,
+      type: POST_MESSAGE_AB_TEST_TYPE,
       model: MODEL,
       field: FIELD,
       id,
