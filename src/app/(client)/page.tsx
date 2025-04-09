@@ -1,49 +1,28 @@
-import ProductCard from "@/components/Product/ProductCard"
-import { prisma } from "@/server/prisma"
-import { EXPERIMENT_COOKIE_NAME } from "@/utils/ab-test"
-import {
-  getProductListVariantRecords,
-  productListQuery,
-  ProductListRecordType,
-  ProductListVariantRecordType,
-} from "@/utils/supabase/product"
-import { omit } from "lodash-es"
-import { cookies } from "next/headers"
+import ProductsPagination from "@/components/Product/ProductsPagination"
+import ProductList from "@/components/Product/ProductList"
+import { getTotalProductPages } from "@/utils/supabase/product"
 
-export default async function ProductListPage() {
-  const cookieStore = await cookies()
-  const isEnable = cookieStore.get(EXPERIMENT_COOKIE_NAME)?.value === "true"
+type Props = {
+  searchParams?: Promise<{
+    page?: string
+  }>
+}
 
-  let products: Array<ProductListRecordType> | null = null
+export default async function ProductListPage(props: Props) {
+  const searchParams = await props.searchParams
+  const currentPage = Number(searchParams?.page) ?? 1
 
-  if (!isEnable) {
-    products = await prisma.product.findMany(productListQuery)
-  } else {
-    const records = await getProductListVariantRecords()
-
-    const map = new Map<string, ProductListRecordType>()
-    records.forEach((product: ProductListVariantRecordType) => {
-      const { field, value } = product
-      if (field !== null && value !== null) {
-        // const parsedValue = JSON.parse(value)
-        const oldRecord = map.get(product.id)
-        map.set(product.id, { ...(oldRecord ?? product), [field]: value })
-      } else {
-        map.set(product.id, omit(product, ["field", "value"]))
-      }
-    })
-
-    products = Array.from(map.values())
+  if (currentPage < 1) {
+    throw new Error("Invalid page number")
   }
+
+  const pageCount = await getTotalProductPages()
 
   return (
     <div className="p-4">
       <h1 className="text-3xl font-bold mb-8">Our Products</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      <ProductList page={currentPage} />
+      {pageCount > 1 && <ProductsPagination pageCount={pageCount} />}
     </div>
   )
 }
