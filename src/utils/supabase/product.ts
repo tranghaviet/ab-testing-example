@@ -17,6 +17,7 @@ export function getTotalProductPages() {
 export const productListQueryBase =
   Prisma.validator<Prisma.ProductFindManyArgs>()({
     take: DEFAULT_PRODUCT_LIST_SIZE,
+    skip: 0,
     select: {
       id: true,
       imageUrl: true,
@@ -29,7 +30,7 @@ export const productListQueryBase =
     },
   })
 
-export function getProductList(skip: number) {
+export function getProductList(skip: number = 0) {
   return prisma.product.findMany({
     ...productListQueryBase,
     skip,

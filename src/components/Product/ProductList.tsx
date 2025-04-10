@@ -11,7 +11,7 @@ import { cookies } from "next/headers"
 
 export default async function ProductList({ page }: { page: number }) {
   const pageSize = 21; // Number of products per page
-  const offset = (page - 1) * pageSize;
+  const offset = isNaN(page) ? 0 : (page - 1) * pageSize;
 
   const cookieStore = await cookies()
   const isEnable = cookieStore.get(EXPERIMENT_COOKIE_NAME)?.value === "true"
