@@ -1,3 +1,6 @@
 {
-  "npm.packageManager": "yarn"
+  "npm.packageManager": "yarn",
+  "prettier.printWidth": 100,
+  "prettier.semi": false,
+  "prettier.configPath": "prettier.config.js"
 }
