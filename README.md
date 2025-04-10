@@ -38,3 +38,9 @@ Then
 # yarn prisma db push --force-reset
 yarn prisma db seed
 ```
+
+### LLM Services
+
+Currently I use free Copilot Cloud API
+
+We could use OpenAI API as well by following the guide: https://docs.copilotkit.ai/guides/self-hosting
