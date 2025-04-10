@@ -3,10 +3,8 @@ import { EXPERIMENT_COOKIE_NAME } from "@/utils/ab-test"
 import {
   getProductList,
   getProductListVariantRecords,
-  ProductListRecordType,
-  ProductListVariantRecordType
+  ProductListRecordType
 } from "@/utils/supabase/product"
-import { omit } from "lodash-es"
 import { cookies } from "next/headers"
 
 export default async function ProductList({ page }: { page: number }) {
@@ -18,24 +16,10 @@ export default async function ProductList({ page }: { page: number }) {
 
   let products: Array<ProductListRecordType> | null = null
 
-  if (!isEnable) {
-    products = await getProductList(offset)
+  if (isEnable) {
+    products = await getProductListVariantRecords(offset)
   } else {
-    const records = await getProductListVariantRecords(offset)
-
-    const map = new Map<string, ProductListRecordType>()
-    records.forEach((product: ProductListVariantRecordType) => {
-      const { field, value } = product
-      if (field !== null && value !== null) {
-        // const parsedValue = JSON.parse(value)
-        const oldRecord = map.get(product.id)
-        map.set(product.id, { ...(oldRecord ?? product), [field]: value })
-      } else {
-        map.set(product.id, omit(product, ["field", "value"]))
-      }
-    })
-
-    products = Array.from(map.values())
+    products = await getProductList(offset)
   }
 
   return (

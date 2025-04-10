@@ -4,8 +4,8 @@ import { Prisma } from "@prisma/client"
 export const DEFAULT_PRODUCT_LIST_SIZE = 12
 
 export type AdditionalVariantRecordType = {
-  field: string | null
-  value: string | null
+  field: string;
+  value: string;
 }
 
 export function getTotalProductPages() {
@@ -45,16 +45,50 @@ export type ProductListVariantRecordType = ProductListRecordType &
   AdditionalVariantRecordType
 
 export async function getProductListVariantRecords(
-  offset: number
-): Promise<Array<ProductListVariantRecordType>> {
-  return prisma.$queryRaw<Array<ProductListVariantRecordType>>(Prisma.sql`
-SELECT products.*, tv.field, tv.value
-FROM products
-LEFT JOIN "TestVariant" tv ON products.id = tv."recordId"
-ORDER BY products.id DESC
-LIMIT ${DEFAULT_PRODUCT_LIST_SIZE}
-OFFSET ${offset}
-  `)
+  skip: number
+): Promise<Array<ProductListRecordType>> {
+  const products = await prisma.product.findMany({
+    ...productListQueryBase,
+    skip,
+  })
+
+  const variantRecords = await prisma.testVariant.findMany({
+    select: {
+      field: true,
+      value: true,
+      recordId: true,
+    },
+    where: {
+      recordId: {
+        in: products.map((record) => record.id),
+      },
+    },
+  })
+  const variantMap = new Map<string, AdditionalVariantRecordType[]>()
+  variantRecords.forEach((variant) => {
+    const { field, value, recordId } = variant
+    if (field !== null && value !== null) {
+      if (variantMap.has(recordId)) {
+        variantMap.get(recordId)?.push({field, value} as AdditionalVariantRecordType)
+      } else {
+        variantMap.set(recordId, [{ field, value } as AdditionalVariantRecordType])
+      }
+    }
+  })
+
+  const productMap = new Map<string, ProductListRecordType>();
+  products.forEach((product: ProductListRecordType) => {
+    const variants = variantMap.get(product.id)
+    if (variants) {
+      variants.forEach((variant) => {
+        (product as any)[variant.field] = variant.value
+      })
+    }
+
+    productMap.set(product.id, product)
+  })
+
+  return Array.from(productMap.values())
 }
 
 export type ProductRecordType =
