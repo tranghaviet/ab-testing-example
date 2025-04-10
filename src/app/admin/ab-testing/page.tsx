@@ -2,29 +2,36 @@
 
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable"
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable"
 import { Textarea } from "@/components/ui/textarea"
-import { prompt } from "@/lib/prompt"
 import { ABMessage, POST_MESSAGE_AB_TEST_TYPE } from "@/utils/ab-test"
 import { useCopilotAction, useCopilotReadable } from "@copilotkit/react-core"
-import { CopilotChat, CopilotPopup } from "@copilotkit/react-ui"
-import {
-  useEffect,
-  useRef,
-  useState
-} from "react"
+import { useEffect, useRef, useState } from "react"
 import { useFormState } from "react-dom"
 import { saveABTestVariant } from "./actions"
+import CopilotChat from "@/components/Chat/CopilotChat"
+
+const DEFAULT_CHAT_PANEL_WIDTH_PERCENT = 25
 
 const childOrigin = process.env.SITE_URL || "http://localhost:3000"
 
+// Define a type for the form state
+type FormState = {
+  success: boolean
+  // Prisma's TestVariant type or a subset might be complex, use 'any' or a simplified type for initial state
+  data?: any | null // Or import TestVariant and use Partial<TestVariant> | null
+  error?: Record<string, string[]> | string | null // Allow for field errors or general string error
+}
+
+// Define the initial state matching the FormState type
+const initialState: FormState = {
+  success: false,
+  error: null,
+  data: null,
+}
+
 const ABTesting = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null)
-  const abTestValueRef = useRef<HTMLTextAreaElement>(null)
 
   const [abMessage, setABmessage] = useState<ABMessage | null>(null)
 
@@ -48,21 +55,6 @@ const ABTesting = () => {
       window.removeEventListener("message", onRecievedMessage)
     }
   }, [])
-
-  // Define a type for the form state
-  type FormState = {
-    success: boolean
-    // Prisma's TestVariant type or a subset might be complex, use 'any' or a simplified type for initial state
-    data?: any | null // Or import TestVariant and use Partial<TestVariant> | null
-    error?: Record<string, string[]> | string | null // Allow for field errors or general string error
-  }
-
-  // Define the initial state matching the FormState type
-  const initialState: FormState = {
-    success: false,
-    error: null,
-    data: null,
-  }
 
   // Use useFormState with the defined initial state
   const [formState, formAction] = useFormState(saveABTestVariant, initialState)
@@ -100,16 +92,8 @@ const ABTesting = () => {
 
   return (
     <div className="h-dvh gap-x-4 p-4">
-      <CopilotPopup
-        instructions={prompt}
-        // defaultOpen
-        labels={{
-          title: "✨ AB Testing Assistant",
-          initial: ["I'm an AB Testing Assistant. How can I help?"],
-        }}
-      />
       <ResizablePanelGroup direction="horizontal" className="">
-        <ResizablePanel defaultSize={30}>
+        <ResizablePanel defaultSize={DEFAULT_CHAT_PANEL_WIDTH_PERCENT}>
           {/* Left: Control Panel */}
           <div className="flex flex-col gap-y-4 h-full">
             <div className="rounded-md border border-border p-4">
@@ -130,40 +114,22 @@ const ABTesting = () => {
                       <Label>ID:</Label> {abMessage.id}
                       {/* Hidden inputs to pass necessary data to the server action */}
                       {/* Safe access with optional chaining ?. */}
-                      <input
-                        type="hidden"
-                        name="recordId"
-                        value={abMessage.id}
-                      />
-                      <input
-                        type="hidden"
-                        name="model"
-                        value={abMessage.model}
-                      />
-                      <input
-                        type="hidden"
-                        name="field"
-                        value={abMessage.field}
-                      />
+                      <input type="hidden" name="recordId" value={abMessage.id} />
+                      <input type="hidden" name="model" value={abMessage.model} />
+                      <input type="hidden" name="field" value={abMessage.field} />
                       {/* Remove hidden input for variant */}
                     </div>
                     <div className="grid w-full items-center gap-1.5 col-span-2">
                       {" "}
-                      {/* Removed max-w-sm */}
                       <Label htmlFor="value">Value</Label>
                       {/* Use a textarea for potentially larger JSON values */}
                       <Textarea
-                        ref={abTestValueRef}
-                        name="value" // Name attribute is crucial for FormData
+                        name="value"
                         id="value"
-                        // placeholder='Enter JSON like { "value": "new text" }'
                         placeholder="Enter field's value"
-                        // className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" // Basic textarea styling
-                        // value needs to be the stringified version of { value: actualData }
                         value={abMessage.value}
                         onChange={(e) => {
-                          // setABTestValue(e.target.value) // Update state with the inner value
-                          setABmessage({ ...abMessage, value: e.target.value }) // Update state with the inner value
+                          setABmessage({ ...abMessage, value: e.target.value })
                         }}
                         required
                       />
@@ -181,15 +147,11 @@ const ABTesting = () => {
                   <Button type="submit">Save Changes</Button>
                   {/* Display success/error messages */}
                   {formState?.success && (
-                    <p className="text-green-500 text-xs mt-2">
-                      Changes saved successfully!
-                    </p>
+                    <p className="text-green-500 text-xs mt-2">Changes saved successfully!</p>
                   )}
                   {/* Display general string errors */}
                   {formState?.error && typeof formState.error === "string" && (
-                    <p className="text-red-500 text-xs mt-2">
-                      Error: {formState.error}
-                    </p>
+                    <p className="text-red-500 text-xs mt-2">Error: {formState.error}</p>
                   )}
                   {/* Display field errors other than 'value' if they exist */}
                   {formState?.error &&
@@ -198,10 +160,7 @@ const ABTesting = () => {
                       ([key, value]) =>
                         key !== "value" &&
                         value && (
-                          <p
-                            key={key}
-                            className="text-red-500 text-xs mt-1"
-                          >{`${key}: ${
+                          <p key={key} className="text-red-500 text-xs mt-1">{`${key}: ${
                             Array.isArray(value) ? value.join(", ") : value
                           }`}</p>
                         )
@@ -212,40 +171,15 @@ const ABTesting = () => {
               )}
             </div>
             <div className="flex-1 rounded-md border border-border p-4 overflow-auto">
-              <CopilotChat
-                instructions={prompt}
-                labels={{
-                  title: "✨ AB Testing Assistant",
-                  initial: ["I'm an AB Testing Assistant. How can I help?"],
-                }}
-              />
+            <CopilotChat/>
             </div>
           </div>
         </ResizablePanel>
         <ResizableHandle className="mx-0.5" />
-        <ResizablePanel defaultSize={70}>
-          {/* Right: Live Preview */}
+        <ResizablePanel defaultSize={100-DEFAULT_CHAT_PANEL_WIDTH_PERCENT}>
           <div className="rounded-md border border-border overflow-hidden h-full">
-            {/* <div className="flex gap-2 items-center p-2">
-              <Label>URL:</Label>
-              <Input
-                ref={iframeSrcInputRef}
-                defaultValue={iframeSrc}
-                // value={iframeSrc}
-                className="w-full"
-              />
-              <Button
-                onClick={() =>
-                  setIframeSrc(iframeSrcInputRef.current?.value as string)
-                }
-              >
-                Go
-              </Button>
-            </div>
-            <Separator /> */}
             <iframe
               ref={iframeRef}
-              // src={iframeSrc}
               src={childOrigin}
               className="w-full h-full"
               title="Live Preview"
