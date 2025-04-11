@@ -10,8 +10,8 @@ export default function ABTestingLayout({
 }>) {
   return (
     <CopilotKit
-      publicApiKey={process.env.NEXT_PUBLIC_COPILOT_PUBLIC_API_KEY}
-      showDevConsole={false}
+      runtimeUrl="/api/copilotkit"
+      showDevConsole={process.env.NODE_ENV !== "production"}
     >
       {children}
     </CopilotKit>
