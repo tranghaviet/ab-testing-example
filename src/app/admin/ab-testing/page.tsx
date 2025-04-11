@@ -13,7 +13,7 @@ import CopilotChat from "@/components/Chat/CopilotChat"
 
 const DEFAULT_CHAT_PANEL_WIDTH_PERCENT = 25
 
-const childOrigin = process.env.SITE_URL || "http://localhost:3000"
+const childOrigin = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
 
 // Define a type for the form state
 type FormState = {

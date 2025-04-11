@@ -1,6 +1,6 @@
 export const EXPERIMENT_COOKIE_NAME = "experiment"
 export const POST_MESSAGE_AB_TEST_TYPE = "ab-test-config"
-export const POST_MESSAGE_TARGET_ORIGIN = process.env.SITE_URL || "*" // "*" for demo purpose
+export const POST_MESSAGE_TARGET_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL || "*" // "*" for demo purpose
 
 export function generateDataTestId(
   prefix: string,
