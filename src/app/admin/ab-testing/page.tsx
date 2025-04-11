@@ -30,7 +30,7 @@ const initialState: FormState = {
   data: null,
 }
 
-const ABTesting = () => {
+export default function ABTesting() {
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const [abMessage, setABmessage] = useState<ABMessage | null>(null)
@@ -49,7 +49,6 @@ const ABTesting = () => {
 
   useEffect(function () {
     window.addEventListener("message", onRecievedMessage)
-    // console.log("attached message listener")
 
     return function () {
       window.removeEventListener("message", onRecievedMessage)
@@ -60,7 +59,6 @@ const ABTesting = () => {
   const [formState, formAction] = useFormState(saveABTestVariant, initialState)
 
   useEffect(() => {
-    // console.log("Form state changed:", formState);
     if (formState.success) {
       iframeRef.current?.contentWindow?.location.reload()
     }
@@ -190,5 +188,3 @@ const ABTesting = () => {
     </div>
   )
 }
-
-export default ABTesting
